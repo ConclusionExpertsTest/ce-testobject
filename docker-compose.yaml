@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  ce-testservice:
+    image: springboot-docker-compose-app:1
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - /data/ce-testobject
+    ports:
+      - "8082:8082"
