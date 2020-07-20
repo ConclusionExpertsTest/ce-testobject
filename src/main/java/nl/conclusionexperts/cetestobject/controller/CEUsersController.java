@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -65,5 +66,11 @@ public class CEUsersController {
         ceUsersRepository.delete(ceUsers);
 
         return ResponseEntity.ok().body("CE User with ID '" + ceUserId + "' was successfully deleted.");
+    }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+    public String patchCeUser(@PathVariable(value = "id") Long ceUserId) {
+        return "Not implemented.";
     }
 }
