@@ -1,10 +1,8 @@
-package nl.conclusionexperts.cetestobject.domain;
+package cetestobject.domain;
 
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Builder

@@ -1,7 +1,7 @@
-package nl.conclusionexperts.cetestobject.unit.controller;
+package cetestobject.unit.controller;
 
-import nl.conclusionexperts.cetestobject.domain.CEUsers;
-import nl.conclusionexperts.cetestobject.repository.CEUsersRepository;
+import cetestobject.domain.CEUsers;
+import cetestobject.repository.CEUsersRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

@@ -1,17 +1,15 @@
-package nl.conclusionexperts.cetestobject.controller;
+package cetestobject.controller;
 
-import nl.conclusionexperts.cetestobject.domain.CEUsers;
-import nl.conclusionexperts.cetestobject.repository.CEUsersRepository;
+import cetestobject.domain.CEUsers;
+import cetestobject.repository.CEUsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")

@@ -1,7 +1,7 @@
-package nl.conclusionexperts.cetestobject.integration;
+package cetestobject.component;
 
+import cetestobject.domain.CEUsers;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import nl.conclusionexperts.cetestobject.domain.CEUsers;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.*;
 import org.springframework.web.util.UriComponentsBuilder;

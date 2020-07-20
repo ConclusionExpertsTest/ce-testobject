@@ -1,6 +1,6 @@
-package nl.conclusionexperts.cetestobject.repository;
+package cetestobject.repository;
 
-import nl.conclusionexperts.cetestobject.domain.CEUsers;
+import cetestobject.domain.CEUsers;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
