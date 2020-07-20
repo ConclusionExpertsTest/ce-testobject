@@ -12,5 +12,4 @@ CREATE TABLE ceusers (
 
 INSERT INTO ceusers (id, isActive, firstName, lastName, address, occupation) VALUES
   (100, true, 'Harry', 'Wit, de', 'Straat 2', 'TAE'),
-  (101, true, 'Jos', 'Lelijk', 'Weg 400', 'TAE'),
-  (102, false, 'Pietje', 'Petersen', 'Steegje 2', 'FAB');
+  (101, false, 'Jos', 'Lelijk', 'Weg 400', 'TAE')

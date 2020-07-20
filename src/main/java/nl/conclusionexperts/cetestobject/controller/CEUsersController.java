@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -19,20 +21,24 @@ public class CEUsersController {
 
     @GetMapping("/")
     public Iterable<CEUsers> findAllCeUsers() {
-        return ceUsersRepository.findAll();
+        return ceUsersRepository.findAllByIsActive();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CEUsers> findCeUser(@PathVariable(value = "id") Long ceUserId) throws ResponseStatusException {
-
         CEUsers ceUsers = ceUsersRepository.findById(ceUserId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return ResponseEntity.ok().body(ceUsers);
     }
 
+    @GetMapping("/inactive")
+    public Iterable<CEUsers> findAllInActiveCeUsers() {
+        return ceUsersRepository.findAllByIsInActive();
+    }
+
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
-    public CEUsers createCeUser(@Valid @RequestBody CEUsers ceUser) {
+    public CEUsers createCeUser(@Valid @NotEmpty @RequestBody CEUsers ceUser) {
         return ceUsersRepository.save(ceUser);
     }
 
@@ -52,12 +58,12 @@ public class CEUsersController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteCeUser(@PathVariable(value = "id") Long ceUserId) throws ResponseStatusException {
+    public ResponseEntity<String> deleteCeUser(@PathVariable(value = "id") Long ceUserId) throws ResponseStatusException {
         CEUsers ceUsers = ceUsersRepository.findById(ceUserId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         ceUsersRepository.delete(ceUsers);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body("CE User with ID '" + ceUserId + "' was successfully deleted.");
     }
 }
