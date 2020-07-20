@@ -5,6 +5,7 @@ import nl.conclusionexperts.cetestobject.repository.CEUsersRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.util.NestedServletException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -130,6 +131,7 @@ public class CEUsersControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Sql("data.sql")
     public void PutUpdatedCeUsersAndExpectStatusOk() throws Exception {
         // Arrange
         CEUsers testUser = CEUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").build();
@@ -139,15 +141,15 @@ public class CEUsersControllerTest extends AbstractControllerTest {
 
         // Act & assert
         mockMvc.perform(MockMvcRequestBuilders
-                .put(uri + "1")
+                .put(uri + "101")
                 .content(objectMapper.writeValueAsString(updatedTestUser))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(MockMvcRequestBuilders.get(uri + "1")).andDo(print())
+        mockMvc.perform(MockMvcRequestBuilders.get(uri + "101")).andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.id", is(101)))
                 .andExpect(jsonPath("$.firstName", is(updatedTestUser.getFirstName())))
                 .andExpect(jsonPath("$.lastName", is(updatedTestUser.getLastName())))
                 .andExpect(jsonPath("$.address", is(updatedTestUser.getAddress())))
