@@ -1,7 +1,7 @@
-package nl.conclusionexperts.cetestobject.unit.controller;
+package cetestobject.unit.controller;
 
+import cetestobject.CeTestobjectApplication;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.conclusionexperts.cetestobject.CeTestobjectApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;

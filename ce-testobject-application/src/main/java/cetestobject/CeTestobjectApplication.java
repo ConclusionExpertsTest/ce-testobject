@@ -1,4 +1,4 @@
-package nl.conclusionexperts.cetestobject;
+package cetestobject;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
