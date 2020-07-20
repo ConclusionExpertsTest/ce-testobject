@@ -2,10 +2,8 @@ package nl.conclusionexperts.cetestobject.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -17,9 +15,10 @@ import javax.validation.constraints.NotNull;
 public class CEUsers {
 
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
-    private @NotNull String firstName;
-    private @NotNull String lastName;
-    private @NotNull String address;
-    private @NotNull String occupation;
+    private @Column(nullable = false) boolean isActive;
+    private @Column(nullable = false) String firstName;
+    private @Column(nullable = false) String lastName;
+    private @Column(nullable = false) String address;
+    private @Column(nullable = false) String occupation;
 
 }
