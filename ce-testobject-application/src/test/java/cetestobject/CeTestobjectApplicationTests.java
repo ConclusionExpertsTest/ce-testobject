@@ -10,6 +10,7 @@ class CeTestobjectApplicationTests {
 
     @Test
     void contextLoads() {
+        CeTestobjectApplication.main(new String[0]);
     }
 
 }
