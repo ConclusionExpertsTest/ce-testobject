@@ -12,7 +12,7 @@ import org.springframework.test.context.jdbc.Sql;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = CeTestobjectApplication.class)
 @ActiveProfiles("test")
 @Sql("data.sql")
-public class RunIT {
+public class RunCT {
 
     @Autowired
     protected TestRestTemplate restTemplate;
