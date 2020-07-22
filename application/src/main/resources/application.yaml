@@ -1,0 +1,20 @@
+server:
+  port: 8082
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    password: CSF@+AE+VkQ?pM3g?zZEwg&e#k&DQvVahmmb!UXb?+ZBwG!$HrQN*yy#N=c8v_wh?^vMEanEuubTxBYgwG3DzA%TxX+Cz36J%$NTnnYM5wcM&aY8A6QH%3BB&6v3TthS6JtYn7_mNDU%x8t6CbXjKfJQn6aAEHPxb2f7n!x5$pW@%!Z*3F%3n^er5yJ?!?6=f!hEZ=QZWC##Yywh@v7jd9@BrwTV9K2Z^jF4_vyTBCrdk7t5J8Bu2hZHWsW=ME!J
+    url: jdbc:h2:mem:userdb;DB_CLOSE_ON_EXIT=TRUE
+    username: sa
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+springdoc:
+  swagger-ui:
+    path: /swagger.html
