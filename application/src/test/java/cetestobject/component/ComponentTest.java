@@ -10,7 +10,7 @@ import java.net.URI;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class IntegrationTest extends RunIT {
+public class ComponentTest extends RunCT {
 
     private final URI uri = UriComponentsBuilder.fromUriString("/api/users/").build().toUri();
 
