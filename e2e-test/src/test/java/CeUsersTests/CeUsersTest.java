@@ -21,11 +21,15 @@ public class CeUsersTest {
 
     protected static ObjectMapper objectMapper = new ObjectMapper();
 
-    private static final String projectDir = "/home/bart/repo/java/ce-testobject/";
+    private static String getProjectDir() {
+        String projectDir = System.getProperty("user.dir");
+        projectDir = projectDir.replace("e2e-test", "");
+        return projectDir;
+    }
 
     @Container
     public static DockerComposeContainer ceTestobject =
-            new DockerComposeContainer(new File(projectDir + "docker-compose.yaml"))
+            new DockerComposeContainer(new File(getProjectDir() + "docker-compose.yaml"))
                     .withExposedService("ce-users-application_1", 8082,
                             Wait.forHttp("/api/users/")
                                     .forStatusCode(200));
