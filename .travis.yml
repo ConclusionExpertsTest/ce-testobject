@@ -2,10 +2,8 @@ language: java
 
 jobs:
   include:
-    - stage: compile
-      script: ./mvnw clean compile
     - stage: test
-      script: ./mvnw clean test
+      script: .travis/test.sh
 
 cache:
   directories:
