@@ -1,2 +1,2 @@
-cd ../application
+cd application
 mvn clean test
