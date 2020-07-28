@@ -1,2 +1,2 @@
 cd application
-mvn clean test
+mvn test -B
