@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewUpdateCEWorkingConditions {
+public class NewUpdateWorkingConditions {
 
     private @Enumerated(EnumType.STRING) @Column(nullable = false) SalaryGroups salaryGroup;
     private @Column(nullable = false) boolean companyCar;

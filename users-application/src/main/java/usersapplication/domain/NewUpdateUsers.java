@@ -9,13 +9,13 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewUpdateCEUsers {
+public class NewUpdateUsers {
 
     private @Column(nullable = false) boolean isActive;
     private @Column(nullable = false) String firstName;
     private @Column(nullable = false) String lastName;
     private @Column(nullable = false) String address;
     private @Column(nullable = false) String occupation;
-    private int workingConditionsId;
+    private @Column(nullable = false) int workingConditionsId;
 
 }

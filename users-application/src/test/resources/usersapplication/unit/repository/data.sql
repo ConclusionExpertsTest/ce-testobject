@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS ceusers;
+DROP TABLE IF EXISTS users;
 
-CREATE TABLE ceusers (
+CREATE TABLE users (
     id   INTEGER      NOT NULL AUTO_INCREMENT,
     isActive BOOLEAN NOT NULL,
     firstName VARCHAR(128) NOT NULL,
@@ -11,6 +11,6 @@ CREATE TABLE ceusers (
     PRIMARY KEY (id)
 );
 
-INSERT INTO ceusers (id, isActive, firstName, lastName, address, occupation, workingConditionsId) VALUES
+INSERT INTO users (id, isActive, firstName, lastName, address, occupation, workingConditionsId) VALUES
   (100, true, 'Harry', 'Wit, de', 'Straat 2', 'TAE', 100),
   (101, false, 'Jos', 'Lelijk', 'Weg 400', 'TAE', 101)

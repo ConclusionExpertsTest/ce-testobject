@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CEWorkingConditions {
+public class WorkingConditions {
 
     // TODO: profile with ENUM (DEV, TEST, TAE, FAB, ETC...)
 

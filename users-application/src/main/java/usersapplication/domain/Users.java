@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CEUsers {
+public class Users {
 
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     private @Column(nullable = false) boolean isActive;
@@ -18,6 +18,6 @@ public class CEUsers {
     private @Column(nullable = false) String lastName;
     private @Column(nullable = false) String address;
     private @Column(nullable = false) String occupation;
-    private int workingConditionsId;
+    private @Column(nullable = false) int workingConditionsId;
 
 }

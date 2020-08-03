@@ -14,7 +14,7 @@ INSERT INTO companylaptop (id, companyLaptopTypes, available, brandAndType, memo
   (3, 'Type4', true, 'Dell XPS 15', '64GB', '1024GB', 'Windows', 'BSD'),
   (4, 'Type5', true, 'Apple Macbook Pro 13', '8GB', '128GB', 'MacOSX', null);
 
-INSERT INTO ceworkingconditions (id, salarygroup, companycar, companylaptop) VALUES
+INSERT INTO workingconditions (id, salarygroup, companycar, companylaptop) VALUES
   (0, 'A', false, 'Type5'),
   (1, 'B', false, 'Type5'),
   (2, 'C', true, 'Type3'),

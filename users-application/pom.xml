@@ -52,13 +52,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.tomakehurst</groupId>
-            <artifactId>wiremock</artifactId>
-            <version>2.27.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
@@ -101,7 +94,7 @@
                 </executions>
                 <configuration>
                     <classifier>exec</classifier>
-                    <mainClass>usersapplication.CeUsersApplication</mainClass>
+                    <mainClass>usersapplication.UsersApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

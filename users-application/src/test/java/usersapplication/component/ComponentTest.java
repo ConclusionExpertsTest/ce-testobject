@@ -1,6 +1,6 @@
 package usersapplication.component;
 
-import usersapplication.domain.CEUsers;
+import usersapplication.domain.Users;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.*;
@@ -18,9 +18,9 @@ public class ComponentTest extends RunCT {
     public void AssertCeUsersCanBeFound() throws JsonProcessingException {
         // Arrange
         String ceUser100Json = objectMapper.writeValueAsString(
-                CEUsers.builder().id(100L).isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").workingConditionsId(100).build());
+                Users.builder().id(100L).isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").workingConditionsId(100).build());
         String ceUser101Json = objectMapper.writeValueAsString(
-                CEUsers.builder().id(101L).isActive(true).firstName("Jos").lastName("Lelijk").address("Weg 400").occupation("TAE").workingConditionsId(101).build());
+                Users.builder().id(101L).isActive(true).firstName("Jos").lastName("Lelijk").address("Weg 400").occupation("TAE").workingConditionsId(101).build());
 
         // Act
         ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
@@ -34,7 +34,7 @@ public class ComponentTest extends RunCT {
     public void AssertInActiveCeUsersCanBeFound() throws JsonProcessingException {
         // Arrange
         String ceUser102Json = objectMapper.writeValueAsString(
-                CEUsers.builder().id(102L).isActive(false).firstName("Pietje").lastName("Petersen").address("Steegje 2").occupation("FAB").workingConditionsId(102).build());
+                Users.builder().id(102L).isActive(false).firstName("Pietje").lastName("Petersen").address("Steegje 2").occupation("FAB").workingConditionsId(102).build());
 
         // Act
         ResponseEntity<String> response = restTemplate.getForEntity(uri + "inactive", String.class);
@@ -48,7 +48,7 @@ public class ComponentTest extends RunCT {
     public void AssertCeUser100CanBeFound() throws JsonProcessingException {
         // Arrange
         String ceUser100Json = objectMapper.writeValueAsString(
-                CEUsers.builder().id(100L).isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").workingConditionsId(100).build());
+                Users.builder().id(100L).isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").workingConditionsId(100).build());
 
         // Act
         ResponseEntity<String> response = restTemplate.getForEntity(uri + "100", String.class);
@@ -62,7 +62,7 @@ public class ComponentTest extends RunCT {
     public void AssertCeUserCanBeCreated() throws JsonProcessingException {
         // Arrange
         String newUser = objectMapper.writeValueAsString(
-                CEUsers.builder().isActive(true).firstName("Joost").lastName("Mooiman").address("Weg 201").occupation("TAE").build());
+                Users.builder().isActive(true).firstName("Joost").lastName("Mooiman").address("Weg 201").occupation("TAE").build());
 
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> request = new HttpEntity<>(newUser, httpHeaders);
@@ -78,10 +78,10 @@ public class ComponentTest extends RunCT {
     public void AssertCeUserCanBeUpdated() throws JsonProcessingException {
         // Arrange
         String updatedUser = objectMapper.writeValueAsString(
-                CEUsers.builder().id(100L).isActive(true).firstName("Joris").lastName("Wit, de").address("Straat 2").occupation("FABBER").workingConditionsId(100).build());
+                Users.builder().id(100L).isActive(true).firstName("Joris").lastName("Wit, de").address("Straat 2").occupation("FABBER").workingConditionsId(100).build());
 
         // Act
-        restTemplate.put(uri + "100", CEUsers.builder().isActive(true).firstName("Joris").lastName("Wit, de").address("Straat 2").occupation("FABBER").build());
+        restTemplate.put(uri + "100", Users.builder().isActive(true).firstName("Joris").lastName("Wit, de").address("Straat 2").occupation("FABBER").workingConditionsId(100).build());
         ResponseEntity<String> response = restTemplate.getForEntity(uri + "100", String.class);
 
         // Assert
@@ -93,9 +93,9 @@ public class ComponentTest extends RunCT {
     public void AssertCeUserCanBeDeleted() throws JsonProcessingException {
         // Arrange
         String ceUser100Json = objectMapper.writeValueAsString(
-                CEUsers.builder().id(100L).isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").workingConditionsId(100).build());
+                Users.builder().id(100L).isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").workingConditionsId(100).build());
         String ceUser101Json = objectMapper.writeValueAsString(
-                CEUsers.builder().id(100L).isActive(true).firstName("Jos").lastName("Lelijk").address("Weg 400").occupation("TAE").workingConditionsId(101).build());
+                Users.builder().id(100L).isActive(true).firstName("Jos").lastName("Lelijk").address("Weg 400").occupation("TAE").workingConditionsId(101).build());
 
         HttpEntity<String> request = new HttpEntity<>("", httpHeaders);
 

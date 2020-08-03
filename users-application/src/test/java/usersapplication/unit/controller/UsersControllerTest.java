@@ -1,18 +1,7 @@
 package usersapplication.unit.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.tomakehurst.wiremock.WireMockServer;
-import nl.conclusionexperts.workingconditionapplication.enums.CompanyLaptopTypes;
-import nl.conclusionexperts.workingconditionapplication.enums.SalaryGroups;
-import org.apache.http.HttpHeaders;
-import org.junit.jupiter.api.BeforeAll;
-import usersapplication.domain.CEUsers;
-import usersapplication.helpers.CeUsersResponseTestData;
-import usersapplication.helpers.workingconditions.WorkingConditionsResponseTestData;
-import usersapplication.helpers.workingconditions.companylaptops.CompanyLaptopsResponseTestData;
-import usersapplication.helpers.workingconditions.salarygroups.SalaryGroupResponseTestData;
-import usersapplication.repository.CEUsersRepository;
+import usersapplication.domain.Users;
+import usersapplication.repository.UsersRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -23,28 +12,18 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CEUsersControllerTest extends AbstractControllerTest {
+public class UsersControllerTest extends AbstractControllerTest {
 
     @Autowired
-    private CEUsersRepository ceUsersRepository;
+    private UsersRepository usersRepository;
 
     private final URI uri = UriComponentsBuilder.fromUriString("/api/users/").build().toUri();
-
-    static WireMockServer wireMockServer;
-
-    @BeforeAll
-    public static void setup() throws JsonProcessingException {
-        wireMockServer = new WireMockServer(8083);
-        wireMockServer.start();
-        setupStub();
-    }
 
     @Test
     public void GetCeUsersWithNoCeUsersPresent() throws Exception {
@@ -57,28 +36,27 @@ public class CEUsersControllerTest extends AbstractControllerTest {
     @Test
     public void GetActiveCeUsersAndExpectStatusOk() throws Exception {
         // Arrange
-        CEUsers testUser = CEUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de")
+        Users testUser = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de")
                 .address("Straat 2").occupation("TAE").workingConditionsId(1).build();
 
-        ceUsersRepository.save(testUser);
+        usersRepository.save(testUser);
 
         // Act & assert
         String resultJson = mockMvc.perform(MockMvcRequestBuilders.get(uri)).andDo(print())
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
-        assertThat(resultJson).isEqualTo("[" + objectMapper.writeValueAsString(
-                CeUsersResponseTestData.ceUsersResponse(testUser)) + "]");
+        assertThat(resultJson).isEqualTo("[" + objectMapper.writeValueAsString(testUser) + "]");
 
     }
 
     @Test
     public void GetInactiveCeUsersAndExpectStatusOk() throws Exception {
         // Arrange
-        CEUsers testUser1 = CEUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").build();
-        CEUsers testUser2 = CEUsers.builder().isActive(false).firstName("Jos").lastName("Lelijk").address("Weg 400").occupation("TAE").build();
+        Users testUser1 = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").build();
+        Users testUser2 = Users.builder().isActive(false).firstName("Jos").lastName("Lelijk").address("Weg 400").occupation("TAE").build();
 
-        ceUsersRepository.save(testUser1);
-        ceUsersRepository.save(testUser2);
+        usersRepository.save(testUser1);
+        usersRepository.save(testUser2);
 
         // Act & assert
         mockMvc.perform(MockMvcRequestBuilders.get(uri + "inactive")).andDo(print())
@@ -90,7 +68,7 @@ public class CEUsersControllerTest extends AbstractControllerTest {
     @Test
     public void PostCeUsersAndExpectStatusCreated() throws Exception {
         // Arrange
-        CEUsers testUser1 = CEUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").build();
+        Users testUser1 = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").build();
 
         // Act & assert
         mockMvc.perform(MockMvcRequestBuilders
@@ -104,12 +82,12 @@ public class CEUsersControllerTest extends AbstractControllerTest {
     @Test
     public void PostNewCeUsersWithFaultyRequestBodyAndExpectException() {
         // Arrange
-        CEUsers testUser1 = CEUsers.builder().build();
-        CEUsers testUser2 = CEUsers.builder().firstName("Hoi").lastName("te Laat").build();
-        CEUsers testUser3 = CEUsers.builder().address("Straatweg 67").build();
-        CEUsers testUser4 = CEUsers.builder().occupation("TAB").build();
-        CEUsers testUser5 = CEUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").build();
-        CEUsers testUser6 = CEUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").workingConditionsId(100).build();
+        Users testUser1 = Users.builder().build();
+        Users testUser2 = Users.builder().firstName("Hoi").lastName("te Laat").build();
+        Users testUser3 = Users.builder().address("Straatweg 67").build();
+        Users testUser4 = Users.builder().occupation("TAB").build();
+        Users testUser5 = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").build();
+        Users testUser6 = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").workingConditionsId(100).build();
 
         // Act & assert
         assertThrows(NestedServletException.class, () -> {
@@ -165,10 +143,10 @@ public class CEUsersControllerTest extends AbstractControllerTest {
     @Sql("data.sql")
     public void PutUpdatedCeUsersAndExpectStatusOk() throws Exception {
         // Arrange
-        CEUsers testUser = CEUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").build();
-        CEUsers updatedTestUser = CEUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 20").occupation("FAB").build();
+        Users testUser = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").build();
+        Users updatedTestUser = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 20").occupation("FAB").build();
 
-        ceUsersRepository.save(testUser);
+        usersRepository.save(testUser);
 
         // Act & assert
         mockMvc.perform(MockMvcRequestBuilders
@@ -190,7 +168,7 @@ public class CEUsersControllerTest extends AbstractControllerTest {
     @Test
     public void PutUpdatedCeUsersForNonExistingCeUserAndExpectStatusNotFound() throws Exception {
         // Arrange
-        CEUsers updatedTestUser = CEUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 20").occupation("FAB").build();
+        Users updatedTestUser = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 20").occupation("FAB").build();
 
         // Act & assert
         mockMvc.perform(MockMvcRequestBuilders
@@ -204,9 +182,9 @@ public class CEUsersControllerTest extends AbstractControllerTest {
     @Test
     public void DeleteCeUsersAndExpectStatusGone() throws Exception {
         // Arrange
-        CEUsers testUser = CEUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").build();
+        Users testUser = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").build();
 
-        ceUsersRepository.save(testUser);
+        usersRepository.save(testUser);
 
         // Act & assert
         mockMvc.perform(MockMvcRequestBuilders
@@ -229,25 +207,6 @@ public class CEUsersControllerTest extends AbstractControllerTest {
         mockMvc.perform(MockMvcRequestBuilders
                 .patch(uri + "1"))
                 .andExpect(status().isNotImplemented());
-    }
-
-    public static void setupStub() throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        wireMockServer.stubFor(get(urlEqualTo("/api/workingconditions/1"))
-                .willReturn(aResponse().withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
-                        .withStatus(200).withBody(objectMapper.writeValueAsString(
-                                WorkingConditionsResponseTestData.workingConditionsResponse(1)))));
-
-        wireMockServer.stubFor(get(urlEqualTo("/api/workingconditions/companylaptop/Type5"))
-                .willReturn(aResponse().withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
-                        .withStatus(200).withBody(objectMapper.writeValueAsString(
-                                CompanyLaptopsResponseTestData.companyLaptopResponse(CompanyLaptopTypes.Type5)))));
-
-        wireMockServer.stubFor(get(urlEqualTo("/api/workingconditions/salarygroups/B"))
-                .willReturn(aResponse().withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
-                        .withStatus(200).withBody(objectMapper.writeValueAsString(
-                                SalaryGroupResponseTestData.salaryGroupResponse(SalaryGroups.B)))));
     }
 
 }

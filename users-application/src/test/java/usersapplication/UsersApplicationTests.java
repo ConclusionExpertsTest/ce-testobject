@@ -6,11 +6,11 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class CeUsersApplicationTests {
+class UsersApplicationTests {
 
     @Test
     void contextLoads() {
-        CeUsersApplication.main(new String[0]);
+        UsersApplication.main(new String[0]);
     }
 
 }
