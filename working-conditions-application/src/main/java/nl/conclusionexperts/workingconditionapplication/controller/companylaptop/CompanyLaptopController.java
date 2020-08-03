@@ -3,7 +3,7 @@ package nl.conclusionexperts.workingconditionapplication.controller.companylapto
 
 import nl.conclusionexperts.workingconditionapplication.domain.companylaptop.CompanyLaptop;
 import nl.conclusionexperts.workingconditionapplication.domain.companylaptop.NewUpdateCompanyLaptop;
-import nl.conclusionexperts.workingconditionapplication.enums.CompanyLaptops;
+import nl.conclusionexperts.workingconditionapplication.enums.CompanyLaptopTypes;
 import nl.conclusionexperts.workingconditionapplication.repository.companylaptop.CompanyLaptopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,7 @@ public class CompanyLaptopController {
 
     private void setAllFields(@RequestBody @Valid @NotEmpty NewUpdateCompanyLaptop newCompanyLaptop, CompanyLaptop companyLaptop) {
         companyLaptop.setAvailable(newCompanyLaptop.isAvailable());
-        companyLaptop.setCompanyLaptops(newCompanyLaptop.getCompanyLaptops());
+        companyLaptop.setCompanyLaptopTypes(newCompanyLaptop.getCompanyLaptopTypes());
         companyLaptop.setBrandAndType(newCompanyLaptop.getType());
         companyLaptop.setMemory(newCompanyLaptop.getMemory());
         companyLaptop.setDiskspace(newCompanyLaptop.getDiskspace());
@@ -44,8 +44,8 @@ public class CompanyLaptopController {
     }
 
     @GetMapping("/{companyLaptopType}")
-    public ResponseEntity<CompanyLaptop> findCompanyLaptop(@PathVariable(value = "companyLaptopType") CompanyLaptops companyLaptops) throws ResponseStatusException {
-        CompanyLaptop companyLaptop = ofNullable(companyLaptopRepository.findCompanyLaptopByCompanyLaptops(companyLaptops))
+    public ResponseEntity<CompanyLaptop> findCompanyLaptop(@PathVariable(value = "companyLaptopType") CompanyLaptopTypes companyLaptopTypes) throws ResponseStatusException {
+        CompanyLaptop companyLaptop = ofNullable(companyLaptopRepository.findCompanyLaptopByCompanyLaptopTypes(companyLaptopTypes))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return ResponseEntity.ok().body(companyLaptop);
     }
@@ -61,9 +61,9 @@ public class CompanyLaptopController {
     }
 
     @PutMapping("/{companyLaptopType}")
-    public ResponseEntity<CompanyLaptop> updateCompanyLaptop(@PathVariable(value = "companyLaptopType") CompanyLaptops companyLaptops,
+    public ResponseEntity<CompanyLaptop> updateCompanyLaptop(@PathVariable(value = "companyLaptopType") CompanyLaptopTypes companyLaptopTypes,
                                                 @Valid @RequestBody NewUpdateCompanyLaptop updateCompanyLaptop) throws ResponseStatusException {
-        CompanyLaptop companyLaptop = ofNullable(companyLaptopRepository.findCompanyLaptopByCompanyLaptops(companyLaptops))
+        CompanyLaptop companyLaptop = ofNullable(companyLaptopRepository.findCompanyLaptopByCompanyLaptopTypes(companyLaptopTypes))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         setAllFields(updateCompanyLaptop, companyLaptop);
@@ -74,7 +74,7 @@ public class CompanyLaptopController {
 
     @PatchMapping("/{companyLaptopType}")
     @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    public String patchCompanyLaptop(@PathVariable(value = "id") CompanyLaptops companyLaptops) {
+    public String patchCompanyLaptop(@PathVariable(value = "id") CompanyLaptopTypes companyLaptopTypes) {
         return "Not implemented.";
     }
 

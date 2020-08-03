@@ -1,7 +1,7 @@
 package nl.conclusionexperts.workingconditionapplication.domain;
 
 import lombok.*;
-import nl.conclusionexperts.workingconditionapplication.enums.CompanyLaptops;
+import nl.conclusionexperts.workingconditionapplication.enums.CompanyLaptopTypes;
 import nl.conclusionexperts.workingconditionapplication.enums.SalaryGroups;
 
 import javax.persistence.*;
@@ -19,6 +19,7 @@ public class CEWorkingConditions {
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     private @Enumerated(EnumType.STRING) @Column(nullable = false) SalaryGroups salaryGroup;
     private @Column(nullable = false) boolean companyCar;
-    private @Enumerated(EnumType.STRING) @Column(nullable = false) CompanyLaptops companyLaptop;
+    private @Enumerated(EnumType.STRING) @Column(nullable = false)
+    CompanyLaptopTypes companyLaptop;
 
 }

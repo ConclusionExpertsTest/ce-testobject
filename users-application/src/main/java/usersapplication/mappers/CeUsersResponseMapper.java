@@ -3,7 +3,7 @@ package usersapplication.mappers;
 import nl.conclusionexperts.workingconditionapplication.domain.CEWorkingConditions;
 import nl.conclusionexperts.workingconditionapplication.domain.companylaptop.CompanyLaptop;
 import nl.conclusionexperts.workingconditionapplication.domain.salary.SalaryGroup;
-import nl.conclusionexperts.workingconditionapplication.enums.CompanyLaptops;
+import nl.conclusionexperts.workingconditionapplication.enums.CompanyLaptopTypes;
 import nl.conclusionexperts.workingconditionapplication.enums.SalaryGroups;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -15,7 +15,7 @@ import usersapplication.domain.response.workingcondition.salary.SalaryGroupRespo
 
 public class CeUsersResponseMapper {
 
-    private static RestTemplate restTemplate = new RestTemplate();
+    private static final RestTemplate restTemplate = new RestTemplate();
 
     private static String workingConditionsUrl = "http://localhost:8083/api/workingconditions";
 
@@ -34,7 +34,7 @@ public class CeUsersResponseMapper {
                 .occupation(ceUser.getOccupation()).build();
     }
 
-    private static WorkingConditionsResponse getWorkingCondition(CEUsers ceUser) {
+    protected static WorkingConditionsResponse getWorkingCondition(CEUsers ceUser) {
         // TODO Awaitility !!
         ResponseEntity<CEWorkingConditions> responseEntity = restTemplate.getForEntity(
                 workingConditionsUrl + "/" + ceUser.getWorkingConditionsId(), CEWorkingConditions.class);
@@ -49,10 +49,10 @@ public class CeUsersResponseMapper {
                 .build();
     }
 
-    private static CompanyLaptopResponse getCompanyLaptop(CompanyLaptops companyLaptops) {
+    protected static CompanyLaptopResponse getCompanyLaptop(CompanyLaptopTypes companyLaptopTypes) {
         // TODO Awaitility !!
         ResponseEntity<CompanyLaptop> responseEntity =
-                restTemplate.getForEntity(companyLaptopsUrl + "/" + companyLaptops.toString(), CompanyLaptop.class);
+                restTemplate.getForEntity(companyLaptopsUrl + "/" + companyLaptopTypes.toString(), CompanyLaptop.class);
 
         CompanyLaptop companyLaptop = responseEntity.getBody();
 
@@ -60,14 +60,14 @@ public class CeUsersResponseMapper {
                 .id(companyLaptop.getId())
                 .available(companyLaptop.isAvailable())
                 .brandAndType(companyLaptop.getBrandAndType())
-                .companyLaptops(companyLaptop.getCompanyLaptops())
+                .companyLaptopTypes(companyLaptop.getCompanyLaptopTypes())
                 .diskspace(companyLaptop.getDiskspace())
                 .memory(companyLaptop.getMemory())
                 .firstOperatingSystem(companyLaptop.getFirstOperatingSystem())
                 .secondOperatingSystem(companyLaptop.getSecondOperatingSystem()).build();
     }
 
-    private static SalaryGroupResponse getSalaryGroup(SalaryGroups salaryGroups) {
+    protected static SalaryGroupResponse getSalaryGroup(SalaryGroups salaryGroups) {
         // TODO Awaitility !!
         ResponseEntity<SalaryGroup> responseEntity =
                 restTemplate.getForEntity(salaryGroupsUrl + "/" + salaryGroups.toString(), SalaryGroup.class);

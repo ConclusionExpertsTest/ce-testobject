@@ -1,7 +1,7 @@
 package nl.conclusionexperts.workingconditionapplication.repository.companylaptop;
 
 import nl.conclusionexperts.workingconditionapplication.domain.companylaptop.CompanyLaptop;
-import nl.conclusionexperts.workingconditionapplication.enums.CompanyLaptops;
+import nl.conclusionexperts.workingconditionapplication.enums.CompanyLaptopTypes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,6 +17,6 @@ public interface CompanyLaptopRepository extends JpaRepository<CompanyLaptop, Lo
     @Query("SELECT cl FROM CompanyLaptop cl WHERE cl.available = false")
     Collection<CompanyLaptop> findAllByUnavailable();
 
-    CompanyLaptop findCompanyLaptopByCompanyLaptops(CompanyLaptops companyLaptops);
+    CompanyLaptop findCompanyLaptopByCompanyLaptopTypes(CompanyLaptopTypes companyLaptopTypes);
 
 }

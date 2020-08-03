@@ -1,7 +1,7 @@
 package usersapplication.domain.response.workingcondition.companylaptop;
 
 import lombok.*;
-import nl.conclusionexperts.workingconditionapplication.enums.CompanyLaptops;
+import nl.conclusionexperts.workingconditionapplication.enums.CompanyLaptopTypes;
 import nl.conclusionexperts.workingconditionapplication.enums.OperatingSystem;
 
 @Builder
@@ -11,7 +11,7 @@ import nl.conclusionexperts.workingconditionapplication.enums.OperatingSystem;
 public class CompanyLaptopResponse {
 
     private Long id;
-    private CompanyLaptops companyLaptops;
+    private CompanyLaptopTypes companyLaptopTypes;
     private boolean available;
     private String brandAndType;
     private String memory;

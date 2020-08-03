@@ -1,7 +1,7 @@
 package nl.conclusionexperts.workingconditionapplication.domain.companylaptop;
 
 import lombok.*;
-import nl.conclusionexperts.workingconditionapplication.enums.CompanyLaptops;
+import nl.conclusionexperts.workingconditionapplication.enums.CompanyLaptopTypes;
 import nl.conclusionexperts.workingconditionapplication.enums.OperatingSystem;
 
 import javax.persistence.*;
@@ -15,7 +15,8 @@ import javax.persistence.*;
 public class CompanyLaptop {
 
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
-    private @Enumerated(EnumType.STRING) @Column(nullable = false) CompanyLaptops companyLaptops;
+    private @Enumerated(EnumType.STRING) @Column(nullable = false)
+    CompanyLaptopTypes companyLaptopTypes;
     private @Column(nullable = false) boolean available;
     private @Column(nullable = false) String brandAndType;
     private @Column(nullable = false) String memory;

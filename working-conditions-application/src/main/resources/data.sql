@@ -7,7 +7,7 @@ INSERT INTO salarygroup (id, salarygroupcode, minamount, maxamount) VALUES
   (5, 'F', 4500.00, 5000.00),
   (6, 'G', 5000.00, 6000.00);
 
-INSERT INTO companylaptop (id, companyLaptops, available, brandAndType, memory, diskspace, firstoperatingsystem, secondoperatingsystem) VALUES
+INSERT INTO companylaptop (id, companyLaptopTypes, available, brandAndType, memory, diskspace, firstoperatingsystem, secondoperatingsystem) VALUES
   (0, 'Type1', true, 'Apple Macbook Pro 15', '32GB', '512GB', 'MacOSX', null),
   (1, 'Type2', true, 'HP ProBook G6', '32GB', '512GB', 'Windows', 'Linux'),
   (2, 'Type3', true, 'Dell XPS 13,3', '16GB', '512GB', 'Linux', null),

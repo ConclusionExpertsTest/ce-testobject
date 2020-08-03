@@ -1,0 +1,10 @@
+{
+  "id": 4,
+  "companyLaptops": "Type5",
+  "available": true,
+  "brandAndType": "Apple Macbook Pro 13",
+  "memory": "8GB",
+  "diskspace": "128GB",
+  "firstOperatingSystem": "MacOSX",
+  "secondOperatingSystem": null
+}

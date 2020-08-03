@@ -1,5 +1,6 @@
 package usersapplication.domain.response;
 
+import nl.conclusionexperts.workingconditionapplication.domain.CEWorkingConditions;
 import usersapplication.domain.response.workingcondition.WorkingConditionsResponse;
 import lombok.*;
 
