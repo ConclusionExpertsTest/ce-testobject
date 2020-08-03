@@ -90,7 +90,7 @@ public class CEUsersControllerTest extends AbstractControllerTest {
     @Test
     public void PostCeUsersAndExpectStatusCreated() throws Exception {
         // Arrange
-        CEUsers testUser1 = CEUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").build();
+        CEUsers testUser1 = CEUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").workingConditionsId(1).build();
 
         // Act & assert
         mockMvc.perform(MockMvcRequestBuilders
@@ -165,8 +165,8 @@ public class CEUsersControllerTest extends AbstractControllerTest {
     @Sql("data.sql")
     public void PutUpdatedCeUsersAndExpectStatusOk() throws Exception {
         // Arrange
-        CEUsers testUser = CEUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").build();
-        CEUsers updatedTestUser = CEUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 20").occupation("FAB").build();
+        CEUsers testUser = CEUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").workingConditionsId(1).build();
+        CEUsers updatedTestUser = CEUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 20").occupation("FAB").workingConditionsId(1).build();
 
         ceUsersRepository.save(testUser);
 
@@ -178,13 +178,13 @@ public class CEUsersControllerTest extends AbstractControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(MockMvcRequestBuilders.get(uri + "101")).andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(101)))
-                .andExpect(jsonPath("$.firstName", is(updatedTestUser.getFirstName())))
-                .andExpect(jsonPath("$.lastName", is(updatedTestUser.getLastName())))
-                .andExpect(jsonPath("$.address", is(updatedTestUser.getAddress())))
-                .andExpect(jsonPath("$.occupation", is(updatedTestUser.getOccupation())));
+        updatedTestUser.setId(101L);
+
+        String resultJson = mockMvc.perform(MockMvcRequestBuilders.get(uri + "101")).andDo(print())
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+        assertThat(resultJson).isEqualTo(objectMapper.writeValueAsString(
+                CeUsersResponseTestData.ceUsersResponse(updatedTestUser)));
     }
 
     @Test
@@ -237,7 +237,7 @@ public class CEUsersControllerTest extends AbstractControllerTest {
         wireMockServer.stubFor(get(urlEqualTo("/api/workingconditions/1"))
                 .willReturn(aResponse().withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
                         .withStatus(200).withBody(objectMapper.writeValueAsString(
-                                WorkingConditionsResponseTestData.workingConditionsResponse(1)))));
+                                WorkingConditionsResponseTestData.ceWorkingConditions(1)))));
 
         wireMockServer.stubFor(get(urlEqualTo("/api/workingconditions/companylaptop/Type5"))
                 .willReturn(aResponse().withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())

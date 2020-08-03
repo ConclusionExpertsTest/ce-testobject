@@ -1,13 +1,16 @@
-package usersapplication.domain.response;
+package usersapplication.helpers.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import usersapplication.domain.response.workingcondition.WorkingConditionsResponse;
-import lombok.*;
 
 @Builder
 @Getter
 @Setter
 @AllArgsConstructor
-public class CeUsersResponse {
+public class CeUsersResponseTest {
 
     private Long id;
     private boolean isActive;
