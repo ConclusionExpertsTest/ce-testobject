@@ -90,7 +90,7 @@
                 </executions>
                 <configuration>
                     <classifier>exec</classifier>
-                    <mainClass>nl.conclusionexperts.workingconditionapplication.CeWorkingConditionsApplication</mainClass>
+                    <mainClass>workingconditionapplication.WorkingConditionsApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

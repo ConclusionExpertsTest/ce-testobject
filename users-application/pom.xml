@@ -71,12 +71,6 @@
             <artifactId>jaxb-api</artifactId>
             <version>2.3.0</version>
         </dependency>
-        <dependency>
-            <groupId>nl.conclusionexperts</groupId>
-            <artifactId>ce-testobject-working-conditions-application</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
 
     </dependencies>
 

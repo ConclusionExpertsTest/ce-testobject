@@ -20,6 +20,14 @@
 
     <dependencies>
 
+        <!-- users-application -->
+        <dependency>
+            <groupId>nl.conclusionexperts</groupId>
+            <artifactId>ce-testobject-users-application</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
         <!-- rest-assured -->
         <dependency>
             <groupId>io.rest-assured</groupId>
