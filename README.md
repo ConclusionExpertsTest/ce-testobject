@@ -20,7 +20,8 @@
         - ```mvn clean install```
         - ```docker-compose up -d```
 
-- Browse to http://localhost:8082/swagger.html for API documentation
+- Browse to http://localhost:8082/users/swagger.html for Users API documentation
+- Browse to http://localhost:8083/working-conditions/swagger.html for Users API documentation
 
 ### To stop the application:
 
