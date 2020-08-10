@@ -14,7 +14,6 @@ public class CeUsersEndpoints {
 
     public static Response getAllActive() {
         return given()
-                .config(RestAssured.config().sslConfig(sslConfig().relaxedHTTPSValidation("TLS")))
                 .header(HttpHeaders.CONTENT_TYPE, ContentType.JSON)
                 .when()
                 .get(baseUrl);
@@ -22,7 +21,6 @@ public class CeUsersEndpoints {
 
     public static Response getAllInactive() {
         return given()
-                .config(RestAssured.config().sslConfig(sslConfig().relaxedHTTPSValidation("TLS")))
                 .header(HttpHeaders.CONTENT_TYPE, ContentType.JSON)
                 .when()
                 .get(baseUrl + "inactive");
@@ -30,7 +28,6 @@ public class CeUsersEndpoints {
 
     public static Response getById(String id) {
         return given()
-                .config(RestAssured.config().sslConfig(sslConfig().relaxedHTTPSValidation("TLS")))
                 .header(HttpHeaders.CONTENT_TYPE, ContentType.JSON)
                 .when()
                 .get(baseUrl + id);
@@ -38,7 +35,6 @@ public class CeUsersEndpoints {
 
     public static Response postNewCeUser(String requestBody) {
         return given()
-                .config(RestAssured.config().sslConfig(sslConfig().relaxedHTTPSValidation("TLS")))
                 .header(HttpHeaders.CONTENT_TYPE, ContentType.JSON)
                 .body(requestBody)
                 .when()
@@ -47,7 +43,6 @@ public class CeUsersEndpoints {
 
     public static Response putCeUser(String id, String requestBody) {
         return given()
-                .config(RestAssured.config().sslConfig(sslConfig().relaxedHTTPSValidation("TLS")))
                 .header(HttpHeaders.CONTENT_TYPE, ContentType.JSON)
                 .body(requestBody)
                 .when()
@@ -56,7 +51,6 @@ public class CeUsersEndpoints {
 
     public static Response deleteCeUser(String id) {
         return given()
-                .config(RestAssured.config().sslConfig(sslConfig().relaxedHTTPSValidation("TLS")))
                 .header(HttpHeaders.CONTENT_TYPE, ContentType.JSON)
                 .when()
                 .delete(baseUrl + id);

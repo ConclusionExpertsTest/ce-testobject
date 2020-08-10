@@ -16,7 +16,6 @@
 - clone onto your machine and in CLI run:
 
     - First `cd` into the folder where the project is located, then:
-        - ```cd application```
         - ```mvn clean install```
         - ```docker-compose up -d```
 

@@ -5,8 +5,25 @@ services:
     image: springboot-docker-compose-app:1
     build:
       context: ./
-      dockerfile: Dockerfile
+      dockerfile: users-application/Dockerfile
     volumes:
       - /data/ce-testobject
     ports:
       - "8082:8082"
+    networks:
+      - ce-testobject-network
+
+  ce-working-conditions-application:
+    image: springboot-docker-compose-app:2
+    build:
+      context: ./
+      dockerfile: working-conditions-application/Dockerfile
+    volumes:
+      - /data/ce-testobject
+    ports:
+      - "8083:8083"
+    networks:
+      - ce-testobject-network
+
+networks:
+  ce-testobject-network:
