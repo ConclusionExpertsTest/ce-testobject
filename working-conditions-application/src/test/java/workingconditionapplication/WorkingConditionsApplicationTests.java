@@ -8,6 +8,7 @@ class WorkingConditionsApplicationTests {
 
     @Test
     void contextLoads() {
+        WorkingConditionsApplication.main(new String[0]);
     }
 
 }

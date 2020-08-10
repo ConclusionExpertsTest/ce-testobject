@@ -23,11 +23,13 @@ public class UsersController {
     private UsersRepository usersRepository;
 
     @GetMapping("/")
+    @CrossOrigin(origins = "http://localhost:4200")
     public Collection<Users> findAllCeUsers() {
         return usersRepository.findAllByIsActive();
     }
 
     @GetMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<Users> findCeUser(@PathVariable(value = "id") Long ceUserId) throws ResponseStatusException {
         Users ceUser = usersRepository.findById(ceUserId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -36,13 +38,15 @@ public class UsersController {
     }
 
     @GetMapping("/inactive")
+    @CrossOrigin(origins = "http://localhost:4200")
     public Iterable<Users> findAllInActiveCeUsers() {
         return usersRepository.findAllByIsInActive();
     }
 
     @PostMapping("/")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<Users> createCeUser(@Valid @NotEmpty @RequestBody NewUpdateUsers newCeUser) throws URISyntaxException {
-        Users ceUser = usersRepository.save(
+        Users users = usersRepository.save(
                 Users.builder()
                         .isActive(newCeUser.isActive())
                         .firstName(newCeUser.getFirstName())
@@ -51,10 +55,11 @@ public class UsersController {
                         .occupation(newCeUser.getOccupation())
                         .workingConditionsId(newCeUser.getWorkingConditionsId()).build());
 
-        return ResponseEntity.created(new URI("/" + ceUser.getId())).body(ceUser);
+        return ResponseEntity.created(new URI("/" + users.getId())).body(users);
     }
 
     @PutMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<Users> updateCeUser(@PathVariable(value = "id") Long ceUserId,
                                               @Valid @RequestBody NewUpdateUsers updateCeUser) throws ResponseStatusException {
         Users users = usersRepository.findById(ceUserId)
@@ -72,6 +77,7 @@ public class UsersController {
     }
 
     @DeleteMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<String> deleteCeUser(@PathVariable(value = "id") Long ceUserId) throws ResponseStatusException {
         Users users = usersRepository.findById(ceUserId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -82,6 +88,7 @@ public class UsersController {
     }
 
     @PatchMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
     public String patchCeUser(@PathVariable(value = "id") Long ceUserId) {
         return "Not implemented.";

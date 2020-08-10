@@ -1,5 +1,6 @@
 package usersapplication.unit.controller;
 
+import usersapplication.domain.NewUpdateUsers;
 import usersapplication.domain.Users;
 import usersapplication.repository.UsersRepository;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,10 @@ public class UsersControllerTest extends AbstractControllerTest {
     private final URI uri = UriComponentsBuilder.fromUriString("/api/users/").build().toUri();
 
     @Test
-    public void GetCeUsersWithNoCeUsersPresent() throws Exception {
+    public void GetUsersWithNoUsersPresentAndAssertEmptyJsonAndStatusOk() throws Exception {
+        // Arrange
+        usersRepository.deleteAll();
+
         // Act & assert
         mockMvc.perform(MockMvcRequestBuilders.get(uri)).andDo(print())
                 .andExpect(status().isOk())
@@ -34,7 +38,7 @@ public class UsersControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void GetActiveCeUsersAndExpectStatusOk() throws Exception {
+    public void GetActiveUsersAndExpectStatusOk() throws Exception {
         // Arrange
         Users testUser = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de")
                 .address("Straat 2").occupation("TAE").workingConditionsId(1).build();
@@ -50,7 +54,7 @@ public class UsersControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void GetInactiveCeUsersAndExpectStatusOk() throws Exception {
+    public void GetInactiveUsersAndExpectStatusOk() throws Exception {
         // Arrange
         Users testUser1 = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").build();
         Users testUser2 = Users.builder().isActive(false).firstName("Jos").lastName("Lelijk").address("Weg 400").occupation("TAE").build();
@@ -66,9 +70,9 @@ public class UsersControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void PostCeUsersAndExpectStatusCreated() throws Exception {
+    public void PostUsersAndExpectStatusCreated() throws Exception {
         // Arrange
-        Users testUser1 = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").build();
+        NewUpdateUsers testUser1 = NewUpdateUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").build();
 
         // Act & assert
         mockMvc.perform(MockMvcRequestBuilders
@@ -80,7 +84,7 @@ public class UsersControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void PostNewCeUsersWithFaultyRequestBodyAndExpectException() {
+    public void PostNewUsersWithFaultyRequestBodyAndExpectException() {
         // Arrange
         Users testUser1 = Users.builder().build();
         Users testUser2 = Users.builder().firstName("Hoi").lastName("te Laat").build();
@@ -141,10 +145,10 @@ public class UsersControllerTest extends AbstractControllerTest {
 
     @Test
     @Sql("data.sql")
-    public void PutUpdatedCeUsersAndExpectStatusOk() throws Exception {
+    public void PutUpdatedUsersAndExpectStatusOk() throws Exception {
         // Arrange
-        Users testUser = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").build();
-        Users updatedTestUser = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 20").occupation("FAB").build();
+        Users testUser = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").workingConditionsId(1).build();
+        Users updatedTestUser = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 20").occupation("FAB").workingConditionsId(1).build();
 
         usersRepository.save(testUser);
 
@@ -166,9 +170,9 @@ public class UsersControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void PutUpdatedCeUsersForNonExistingCeUserAndExpectStatusNotFound() throws Exception {
+    public void PutUpdatedUsersForNonExistingUserAndExpectStatusNotFound() throws Exception {
         // Arrange
-        Users updatedTestUser = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 20").occupation("FAB").build();
+        NewUpdateUsers updatedTestUser = NewUpdateUsers.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 20").occupation("FAB").workingConditionsId(1).build();
 
         // Act & assert
         mockMvc.perform(MockMvcRequestBuilders
@@ -180,24 +184,25 @@ public class UsersControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void DeleteCeUsersAndExpectStatusGone() throws Exception {
+    public void DeleteUsersAndExpectStatusGone() throws Exception {
         // Arrange
         Users testUser = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").build();
 
         usersRepository.save(testUser);
+        Long id = usersRepository.findAll().get(0).getId();
 
         // Act & assert
         mockMvc.perform(MockMvcRequestBuilders
-                .delete(uri + "1"))
+                .delete(uri + String.valueOf(id)))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("CE User with ID '1' was successfully deleted.")));
+                .andExpect(content().string(containsString("CE User with ID '" + id + "' was successfully deleted.")));
     }
 
     @Test
-    public void DeleteNonExistingCeUsersAndExpectStatusNotFound() throws Exception {
+    public void DeleteNonExistingUsersAndExpectStatusNotFound() throws Exception {
         // Act & assert
         mockMvc.perform(MockMvcRequestBuilders
-                .delete(uri + "1"))
+                .delete(uri + "1001"))
                 .andExpect(status().isNotFound());
     }
 

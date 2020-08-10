@@ -34,16 +34,19 @@ public class CompanyLaptopController {
     }
 
     @GetMapping("/")
+    @CrossOrigin(origins = "http://localhost:4200")
     public Iterable<CompanyLaptop> findAllAvailableCompanyLaptops() {
         return companyLaptopRepository.findAllByAvailable();
     }
 
     @GetMapping("/unavailable")
+    @CrossOrigin(origins = "http://localhost:4200")
     public Iterable<CompanyLaptop> findAllUnvailableCompanyLaptops() {
         return companyLaptopRepository.findAllByUnavailable();
     }
 
     @GetMapping("/{companyLaptopType}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<CompanyLaptop> findCompanyLaptop(@PathVariable(value = "companyLaptopType") CompanyLaptopTypes companyLaptopTypes) throws ResponseStatusException {
         CompanyLaptop companyLaptop = ofNullable(companyLaptopRepository.findCompanyLaptopByCompanyLaptopTypes(companyLaptopTypes))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -51,6 +54,7 @@ public class CompanyLaptopController {
     }
 
     @PostMapping("/")
+    @CrossOrigin(origins = "http://localhost:4200")
     @ResponseStatus(HttpStatus.CREATED)
     public CompanyLaptop createCompanyLaptop(@Valid @NotEmpty @RequestBody NewUpdateCompanyLaptop newCompanyLaptop) {
         CompanyLaptop companyLaptop = CompanyLaptop.builder().build();
@@ -61,6 +65,7 @@ public class CompanyLaptopController {
     }
 
     @PutMapping("/{companyLaptopType}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<CompanyLaptop> updateCompanyLaptop(@PathVariable(value = "companyLaptopType") CompanyLaptopTypes companyLaptopTypes,
                                                 @Valid @RequestBody NewUpdateCompanyLaptop updateCompanyLaptop) throws ResponseStatusException {
         CompanyLaptop companyLaptop = ofNullable(companyLaptopRepository.findCompanyLaptopByCompanyLaptopTypes(companyLaptopTypes))
@@ -73,6 +78,7 @@ public class CompanyLaptopController {
     }
 
     @PatchMapping("/{companyLaptopType}")
+    @CrossOrigin(origins = "http://localhost:4200")
     @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
     public String patchCompanyLaptop(@PathVariable(value = "id") CompanyLaptopTypes companyLaptopTypes) {
         return "Not implemented.";
