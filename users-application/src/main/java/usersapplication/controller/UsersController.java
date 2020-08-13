@@ -84,7 +84,7 @@ public class UsersController {
 
         usersRepository.delete(users);
 
-        return ResponseEntity.ok().body("CE User with ID '" + ceUserId + "' was successfully deleted.");
+        return ResponseEntity.ok().body("{\"succesMessage\": \"CE User with ID '" + ceUserId + "' was successfully deleted.\"}");
     }
 
     @PatchMapping("/{id}")
