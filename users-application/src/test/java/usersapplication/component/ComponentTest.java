@@ -105,7 +105,7 @@ public class ComponentTest extends RunCT {
 
         // Assert
         assertThat(deleteResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(deleteResponse.getBody()).isEqualTo("CE User with ID '101' was successfully deleted.");
+        assertThat(deleteResponse.getBody()).isEqualTo("{\"succesMessage\": \"CE User with ID '101' was successfully deleted.\"}");
         assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(getResponse.getBody()).isNotEqualTo("[" + ceUser100Json + "," + ceUser101Json + "]");
         assertThat(getResponse.getBody()).isEqualTo("[" + ceUser100Json + "]");

@@ -109,9 +109,9 @@ public class CeUsersTest {
 
         // Assert - DELETE & GET
         assertThat(deleteResponse1.statusCode()).isEqualTo(HttpStatus.SC_OK);
-        assertThat(deleteResponse1.body().print()).isEqualTo("CE User with ID '1' was successfully deleted.");
+        assertThat(deleteResponse1.body().print()).isEqualTo("{\"succesMessage\": \"CE User with ID '1' was successfully deleted.\"}");
         assertThat(deleteResponse2.statusCode()).isEqualTo(HttpStatus.SC_OK);
-        assertThat(deleteResponse2.body().print()).isEqualTo("CE User with ID '2' was successfully deleted.");
+        assertThat(deleteResponse2.body().print()).isEqualTo("{\"succesMessage\": \"CE User with ID '2' was successfully deleted.\"}");
         assertThat(getAllActiveAfterDeleteResponse.statusCode()).isEqualTo(HttpStatus.SC_OK);
         assertThat(getAllActiveAfterDeleteResponse.body().print()).isEqualTo("[]");
     }
