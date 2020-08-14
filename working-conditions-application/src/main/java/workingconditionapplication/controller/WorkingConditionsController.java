@@ -77,7 +77,7 @@ public class WorkingConditionsController {
 
         workingConditionsRepository.delete(workingConditions);
 
-        return ResponseEntity.ok().body("Working condition with ID '" + workingConditionId + "' was successfully deleted.");
+        return ResponseEntity.ok().body("{\"succesMessage\": \"Working condition with ID '" + workingConditionId + "' was successfully deleted.\"}");
     }
 
     @PatchMapping("/{id}")
