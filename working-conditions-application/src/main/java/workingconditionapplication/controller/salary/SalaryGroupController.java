@@ -1,5 +1,6 @@
 package workingconditionapplication.controller.salary;
 
+import workingconditionapplication.domain.companylaptop.CompanyLaptop;
 import workingconditionapplication.domain.salary.SalaryGroup;
 import workingconditionapplication.enums.SalaryGroups;
 import workingconditionapplication.domain.salary.UpdateSalaryGroup;
@@ -46,7 +47,9 @@ public class SalaryGroupController {
         salaryGroup.setMinAmount(updatedSalaryGroup.getMinAmount());
         salaryGroup.setMaxAmount(updatedSalaryGroup.getMaxAmount());
 
-        return ResponseEntity.ok().body(salaryGroup);
+        final SalaryGroup savedSalaryGroup = salaryGroupRepository.saveAndFlush(salaryGroup);
+
+        return ResponseEntity.ok().body(savedSalaryGroup);
     }
 
     @PatchMapping("/{salaryGroupCode}")

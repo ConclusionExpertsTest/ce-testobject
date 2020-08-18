@@ -26,7 +26,7 @@ public class CompanyLaptopController {
     private void setAllFields(@RequestBody @Valid @NotEmpty NewUpdateCompanyLaptop newCompanyLaptop, CompanyLaptop companyLaptop) {
         companyLaptop.setAvailable(newCompanyLaptop.isAvailable());
         companyLaptop.setCompanyLaptopTypes(newCompanyLaptop.getCompanyLaptopTypes());
-        companyLaptop.setBrandAndType(newCompanyLaptop.getType());
+        companyLaptop.setBrandAndType(newCompanyLaptop.getBrandAndType());
         companyLaptop.setMemory(newCompanyLaptop.getMemory());
         companyLaptop.setDiskspace(newCompanyLaptop.getDiskspace());
         companyLaptop.setFirstOperatingSystem(newCompanyLaptop.getFirstOperatingSystem());

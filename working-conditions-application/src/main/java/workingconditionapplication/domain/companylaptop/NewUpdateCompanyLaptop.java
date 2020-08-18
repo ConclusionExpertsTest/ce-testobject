@@ -16,7 +16,7 @@ public class NewUpdateCompanyLaptop {
     private @Enumerated(EnumType.STRING) @Column(nullable = false)
     CompanyLaptopTypes companyLaptopTypes;
     private @Column(nullable = false) boolean available;
-    private @Column(nullable = false) String type;
+    private @Column(nullable = false) String brandAndType;
     private @Column(nullable = false) String memory;
     private @Column(nullable = false) String diskspace;
     private @Enumerated(EnumType.STRING) @Column(nullable = false) OperatingSystem firstOperatingSystem;
