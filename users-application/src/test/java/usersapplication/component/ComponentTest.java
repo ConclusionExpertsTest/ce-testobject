@@ -131,6 +131,8 @@ public class ComponentTest extends RunCT {
 
         }
 
+        //TODO: PUT, POST and Actual DELETE!
+
     }
 
 }
