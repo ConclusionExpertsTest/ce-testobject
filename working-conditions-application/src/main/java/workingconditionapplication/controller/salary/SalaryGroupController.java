@@ -17,19 +17,18 @@ import static java.util.Optional.ofNullable;
 
 @RestController
 @RequestMapping("/api/workingconditions/salarygroups")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8081"})
 public class SalaryGroupController {
 
     @Autowired
     private SalaryGroupRepository salaryGroupRepository;
 
     @GetMapping("/")
-    @CrossOrigin(origins = "http://localhost:4200")
     public Iterable<SalaryGroup> findAllSalaryGroups() {
         return salaryGroupRepository.findAll();
     }
 
     @GetMapping("/{salaryGroupCode}")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<SalaryGroup> findSalaryGroup(@PathVariable(value = "salaryGroupCode") SalaryGroups salaryGroups) throws ResponseStatusException {
         SalaryGroup salaryGroup = ofNullable(salaryGroupRepository.findUserBySalaryGroupCode(salaryGroups))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -37,7 +36,6 @@ public class SalaryGroupController {
     }
 
     @PutMapping("/{salaryGroupCode}")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<SalaryGroup> updateSalaryGroup(@PathVariable(value = "salaryGroupCode") SalaryGroups salaryGroups,
                                                 @Valid @RequestBody UpdateSalaryGroup updatedSalaryGroup) throws ResponseStatusException {
 
@@ -53,7 +51,6 @@ public class SalaryGroupController {
     }
 
     @PatchMapping("/{salaryGroupCode}")
-    @CrossOrigin(origins = "http://localhost:4200")
     @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
     public String patchSalaryGroup(@PathVariable(value = "salaryGroupCode") SalaryGroups salaryGroups) {
         return "Not implemented.";

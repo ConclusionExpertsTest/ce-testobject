@@ -31,3 +31,6 @@ hs_err_pid*
 
 # java target folder
 target/
+
+# allure folder
+allure-results/

@@ -2,7 +2,7 @@ version: '3'
 
 services:
   ce-users-application:
-    image: springboot-docker-compose-app:1
+    image: ce-users-application
     build:
       context: ./
       dockerfile: users-application/Dockerfile
@@ -14,7 +14,7 @@ services:
       - ce-testobject-network
 
   ce-working-conditions-application:
-    image: springboot-docker-compose-app:2
+    image: ce-working-conditions-application
     build:
       context: ./
       dockerfile: working-conditions-application/Dockerfile
