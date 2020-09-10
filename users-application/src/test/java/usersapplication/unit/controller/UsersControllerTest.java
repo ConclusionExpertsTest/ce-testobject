@@ -1,5 +1,9 @@
 package usersapplication.unit.controller;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Flaky;
+import io.qameta.allure.Issue;
+import org.junit.jupiter.api.DisplayName;
 import usersapplication.domain.NewUpdateUsers;
 import usersapplication.domain.Users;
 import usersapplication.repository.UsersRepository;
@@ -19,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DisplayName("UsersController tests")
 public class UsersControllerTest extends AbstractControllerTest {
 
     @Autowired
@@ -27,6 +32,7 @@ public class UsersControllerTest extends AbstractControllerTest {
     private final URI uri = UriComponentsBuilder.fromUriString("/api/users/").build().toUri();
 
     @Test
+    @DisplayName("Get users with no users present and assert empty JSON and HtppStatus 'OK'")
     public void GetUsersWithNoUsersPresentAndAssertEmptyJsonAndStatusOk() throws Exception {
         // Arrange
         usersRepository.deleteAll();
@@ -38,6 +44,7 @@ public class UsersControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @DisplayName("Get all active users and expect HttpStatus 'OK'")
     public void GetActiveUsersAndExpectStatusOk() throws Exception {
         // Arrange
         Users testUser = Users.builder().isActive(true).firstName("Harry").lastName("Wit, de")

@@ -16,6 +16,7 @@ import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping("/api/workingconditions")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8081"})
 public class WorkingConditionsController {
 
     // TODO: query based on the profile, not salary group
@@ -30,13 +31,11 @@ public class WorkingConditionsController {
     }
 
     @GetMapping("/")
-    @CrossOrigin(origins = "http://localhost:4200")
     public Iterable<WorkingConditions> findAllWorkingConditions() {
         return workingConditionsRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<WorkingConditions> findWorkingCondition(@PathVariable(value = "id") Long workingConditionId) throws ResponseStatusException {
         WorkingConditions workingConditions = workingConditionsRepository.findById(workingConditionId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -44,7 +43,6 @@ public class WorkingConditionsController {
     }
 
     @PostMapping("/")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<WorkingConditions> createWorkingCondition(@Valid @NotEmpty @RequestBody NewUpdateWorkingConditions newWorkingConditions) throws URISyntaxException {
         WorkingConditions workingConditions = WorkingConditions.builder()
                 .salaryGroup(newWorkingConditions.getSalaryGroup())
@@ -57,7 +55,6 @@ public class WorkingConditionsController {
     }
 
     @PutMapping("/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<WorkingConditions> updateWorkingCondition(@PathVariable(value = "id") Long workingConditionId,
                                                                     @Valid @RequestBody NewUpdateWorkingConditions updateCEWorkingConditions) throws ResponseStatusException {
         WorkingConditions workingConditions = workingConditionsRepository.findById(workingConditionId)
@@ -70,7 +67,6 @@ public class WorkingConditionsController {
     }
 
     @DeleteMapping("/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<String> deleteWorkingCondition(@PathVariable(value = "id") Long workingConditionId) throws ResponseStatusException {
         WorkingConditions workingConditions = workingConditionsRepository.findById(workingConditionId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -81,7 +77,6 @@ public class WorkingConditionsController {
     }
 
     @PatchMapping("/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
     @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
     public String patchWorkingCondition(@PathVariable(value = "id") Long workingConditionId) {
         return "Not implemented.";
