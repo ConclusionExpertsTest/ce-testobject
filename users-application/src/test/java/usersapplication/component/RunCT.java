@@ -8,14 +8,17 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
+import usersapplication.repository.UsersRepository;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = UsersApplication.class)
 @ActiveProfiles("test")
-@Sql("data.sql")
 public class RunCT {
 
     @Autowired
     protected TestRestTemplate restTemplate;
+
+    @Autowired
+    protected UsersRepository usersRepository;
 
     protected ObjectMapper objectMapper = new ObjectMapper();
 

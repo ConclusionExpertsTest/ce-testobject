@@ -1,140 +1,138 @@
 package usersapplication.component;
 
+import org.junit.jupiter.api.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import usersapplication.common.ReplaceCamelCase;
 import usersapplication.domain.Users;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.junit.jupiter.api.Test;
-import org.springframework.http.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
+@DisplayNameGeneration(ReplaceCamelCase.class)
+@DisplayName("Component / service tests")
 public class ComponentTest extends RunCT {
 
     private final URI uri = UriComponentsBuilder.fromUriString("/api/users/").build().toUri();
 
-    @Test
-    public void AssertCeUsersCanBeFound() throws JsonProcessingException {
-        // Arrange
-        String ceUser100Json = objectMapper.writeValueAsString(
-                Users.builder().id(100L).isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").workingConditionsId(100).build());
-        String ceUser101Json = objectMapper.writeValueAsString(
-                Users.builder().id(101L).isActive(true).firstName("Jos").lastName("Lelijk").address("Weg 400").occupation("TAE").workingConditionsId(101).build());
+    private Users newActiveUser1 = Users.builder()
+            .firstName("test 1")
+            .isActive(true)
+            .lastName("de tester 1")
+            .address("testweg 456")
+            .occupation("what he does all day").build();
 
-        // Act
-        ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+    private Users newActiveUser2 = Users.builder()
+            .firstName("test 2")
+            .isActive(false)
+            .lastName("de tester 2")
+            .address("testweg 789")
+            .occupation("what he seems to be doing all day").build();
 
-        // Assert
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo("[" + ceUser100Json + "," + ceUser101Json + "]");
+    @Nested
+    public class givenAnEmptyUsersRepository {
+
+        @BeforeEach
+        public void setup() {
+            usersRepository.deleteAll();
+        }
+
+        @Test
+        public void thenGetAllActiveUsersShouldReturnAnEmptyJson() {
+            ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+            assertAll(
+                    () -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
+                    () -> assertThat(response.getBody()).isEqualTo("[]")
+            );
+        }
+
+        @Test
+        public void thenGetAllInactiveUsersShouldReturnAnEmptyJson() {
+            ResponseEntity<String> response = restTemplate.getForEntity(uri + "inactive", String.class);
+            assertAll(
+                    () -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
+                    () -> assertThat(response.getBody()).isEqualTo("[]")
+            );
+        }
+
+        @Nested
+        public class whenAnActiveUserIsAvailable {
+
+            @BeforeEach
+            public void setup() {
+                usersRepository.saveAndFlush(newActiveUser1);
+                newActiveUser1.setId(1L);
+            }
+
+            @Test
+            public void thenGetAllUsersShouldReturnAJsonWithTheActiveUser() throws JsonProcessingException {
+                ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+                assertAll(
+                        () -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
+                        () -> assertThat(response.getBody())
+                                .isEqualTo("[" + objectMapper.writeValueAsString(newActiveUser1) + "]")
+                );
+            }
+
+            @Nested
+            public class andWhenAnInactiveUserIsAvailable {
+
+                @BeforeEach
+                public void setup() {
+                    usersRepository.saveAndFlush(newActiveUser2);
+                    newActiveUser1.setId(3L);
+                    newActiveUser2.setId(6L);
+                }
+
+                @Test
+                public void thenGetAllUsersShouldReturnAJsonWithTheActiveUsers() {
+                    ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+                    assertAll(
+                            () -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
+                            () -> assertThat(response.getBody())
+                                    .isEqualTo("[" + objectMapper.writeValueAsString(newActiveUser1) + "]")
+                    );
+                }
+
+                @Test
+                public void thenGetAllInactiveUsersShouldReturnAJsonWithTheInactiveUsers() {
+                    ResponseEntity<String> response = restTemplate.getForEntity(uri + "inactive", String.class);
+                    assertAll(
+                            () -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
+                            () -> assertThat(response.getBody())
+                                    .isEqualTo("[" + objectMapper.writeValueAsString(newActiveUser2) + "]")
+                    );
+                }
+
+            }
+
+            @Nested
+            public class andWhenTheActiveUserIsDeleted {
+
+                @BeforeEach
+                public void setup() {
+                    usersRepository.deleteById(2L);
+                }
+
+                @Test
+                public void thenGetAllActiveUsersShouldReturnAnEmptyJson() {
+                    ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+                    assertAll(
+                            () -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
+                            () -> assertThat(response.getBody()).isEqualTo("[]")
+                    );
+                }
+
+            }
+
+        }
+
+        //TODO: PUT, POST and Actual DELETE!
+
     }
 
-    @Test
-    public void AssertInActiveCeUsersCanBeFound() throws JsonProcessingException {
-        // Arrange
-        String ceUser102Json = objectMapper.writeValueAsString(
-                Users.builder().id(102L).isActive(false).firstName("Pietje").lastName("Petersen").address("Steegje 2").occupation("FAB").workingConditionsId(102).build());
-
-        // Act
-        ResponseEntity<String> response = restTemplate.getForEntity(uri + "inactive", String.class);
-
-        // Assert
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo("[" + ceUser102Json + "]");
-    }
-
-    @Test
-    public void AssertCeUser100CanBeFound() throws JsonProcessingException {
-        // Arrange
-        String ceUser100Json = objectMapper.writeValueAsString(
-                Users.builder().id(100L).isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").workingConditionsId(100).build());
-
-        // Act
-        ResponseEntity<String> response = restTemplate.getForEntity(uri + "100", String.class);
-
-        // Assert
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo(ceUser100Json);
-    }
-
-    @Test
-    public void AssertCeUserCanBeCreated() throws JsonProcessingException {
-        // Arrange
-        String newUser = objectMapper.writeValueAsString(
-                Users.builder().isActive(true).firstName("Joost").lastName("Mooiman").address("Weg 201").occupation("TAE").build());
-
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> request = new HttpEntity<>(newUser, httpHeaders);
-
-        // Act
-        ResponseEntity<String> response = restTemplate.postForEntity(uri, request, String.class);
-
-        // Assert
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-    }
-
-    @Test
-    public void AssertCeUserCanBeUpdated() throws JsonProcessingException {
-        // Arrange
-        String updatedUser = objectMapper.writeValueAsString(
-                Users.builder().id(100L).isActive(true).firstName("Joris").lastName("Wit, de").address("Straat 2").occupation("FABBER").workingConditionsId(100).build());
-
-        // Act
-        restTemplate.put(uri + "100", Users.builder().isActive(true).firstName("Joris").lastName("Wit, de").address("Straat 2").occupation("FABBER").workingConditionsId(100).build());
-        ResponseEntity<String> response = restTemplate.getForEntity(uri + "100", String.class);
-
-        // Assert
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo(updatedUser);
-    }
-
-    @Test
-    public void AssertCeUserCanBeDeleted() throws JsonProcessingException {
-        // Arrange
-        String ceUser100Json = objectMapper.writeValueAsString(
-                Users.builder().id(100L).isActive(true).firstName("Harry").lastName("Wit, de").address("Straat 2").occupation("TAE").workingConditionsId(100).build());
-        String ceUser101Json = objectMapper.writeValueAsString(
-                Users.builder().id(100L).isActive(true).firstName("Jos").lastName("Lelijk").address("Weg 400").occupation("TAE").workingConditionsId(101).build());
-
-        HttpEntity<String> request = new HttpEntity<>("", httpHeaders);
-
-        // Act
-        ResponseEntity<String> deleteResponse = restTemplate.exchange(uri + "101", HttpMethod.DELETE, request, String.class);
-        ResponseEntity<String> getResponse = restTemplate.getForEntity(uri, String.class);
-
-        // Assert
-        assertThat(deleteResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(deleteResponse.getBody()).isEqualTo("{\"succesMessage\": \"CE User with ID '101' was successfully deleted.\"}");
-        assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(getResponse.getBody()).isNotEqualTo("[" + ceUser100Json + "," + ceUser101Json + "]");
-        assertThat(getResponse.getBody()).isEqualTo("[" + ceUser100Json + "]");
-    }
-
-    @Test
-    public void Assert404NotFoundIfCeUserCanNotBeFound() {
-        // Arrange
-        HttpEntity<String> request = new HttpEntity<>("", httpHeaders);
-
-        // Act
-        ResponseEntity<String> getResponse = restTemplate.getForEntity(uri + "103", String.class);
-        ResponseEntity<String> deleteResponse = restTemplate.exchange(uri + "103", HttpMethod.DELETE, request, String.class);
-
-        // Assert
-        assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-        assertThat(deleteResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-    }
-
-    @Test
-    public void AssertBadRequestWhenPostingWithFaultyJson() {
-        // Arrange
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> request = new HttpEntity<>("{newUser}", httpHeaders);
-
-        // Act
-        ResponseEntity<String> response = restTemplate.postForEntity(uri, request, String.class);
-
-        // Assert
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-    }
 }
