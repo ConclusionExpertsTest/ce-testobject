@@ -24,12 +24,12 @@ public class UsersController {
     private UsersRepository usersRepository;
 
     @GetMapping("/")
-    public Collection<Users> findAllCeUsers() {
+    public Collection<Users> findAllUsers() {
         return usersRepository.findAllByIsActive();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Users> findCeUser(@PathVariable(value = "id") Long ceUserId) throws ResponseStatusException {
+    public ResponseEntity<Users> findUser(@PathVariable(value = "id") Long ceUserId) throws ResponseStatusException {
         Users ceUser = usersRepository.findById(ceUserId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
@@ -37,12 +37,12 @@ public class UsersController {
     }
 
     @GetMapping("/inactive")
-    public Iterable<Users> findAllInActiveCeUsers() {
+    public Iterable<Users> findAllInActiveUsers() {
         return usersRepository.findAllByIsInActive();
     }
 
     @PostMapping("/")
-    public ResponseEntity<Users> createCeUser(@Valid @NotEmpty @RequestBody NewUpdateUsers newCeUser) throws URISyntaxException {
+    public ResponseEntity<Users> createUser(@Valid @NotEmpty @RequestBody NewUpdateUsers newCeUser) throws URISyntaxException {
         Users users = usersRepository.save(
                 Users.builder()
                         .isActive(newCeUser.isActive())
@@ -56,8 +56,8 @@ public class UsersController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Users> updateCeUser(@PathVariable(value = "id") Long ceUserId,
-                                              @Valid @RequestBody NewUpdateUsers updateCeUser) throws ResponseStatusException {
+    public ResponseEntity<Users> updateUser(@PathVariable(value = "id") Long ceUserId,
+                                            @Valid @RequestBody NewUpdateUsers updateCeUser) throws ResponseStatusException {
         Users users = usersRepository.findById(ceUserId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
@@ -73,7 +73,7 @@ public class UsersController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCeUser(@PathVariable(value = "id") Long ceUserId) throws ResponseStatusException {
+    public ResponseEntity<String> deleteUser(@PathVariable(value = "id") Long ceUserId) throws ResponseStatusException {
         Users users = usersRepository.findById(ceUserId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
@@ -84,7 +84,7 @@ public class UsersController {
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    public String patchCeUser(@PathVariable(value = "id") Long ceUserId) {
+    public String patchUser(@PathVariable(value = "id") Long ceUserId) {
         return "Not implemented.";
     }
 }
